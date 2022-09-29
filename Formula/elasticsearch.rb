@@ -1,4 +1,4 @@
-class ElasticsearchFull < Formula
+class Elasticsearch < Formula
   desc "Distributed search & analytics engine"
   homepage "https://www.elastic.co/products/elasticsearch"
   url "https://github.com/elastic/elasticsearch/archive/v8.4.2.tar.gz"
