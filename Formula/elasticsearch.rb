@@ -2,7 +2,7 @@ class Elasticsearch < Formula
   desc "Distributed search & analytics engine"
   homepage "https://www.elastic.co/products/elasticsearch"
   url "https://github.com/elastic/elasticsearch/archive/v8.4.2.tar.gz"
-  sha256 "988c3953293ff484d7b7cd6576c3abb58543f3fb4b25c3c91fbd455070463281"
+  sha256 "9fbc54839c218cab50d2243bd236af5801054bfb6d605fd5076030207c0f3875"
   license "Apache-2.0"
   conflicts_with "elasticsearch"
 
