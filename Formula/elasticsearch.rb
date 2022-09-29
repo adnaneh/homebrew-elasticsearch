@@ -3,7 +3,7 @@ class Elasticsearch < Formula
   homepage "https://www.elastic.co/products/elasticsearch"
   url "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.2-darwin-x86_64.tar.gz?tap=elastic/homebrew-tap"
   version "8.4.2"
-  sha256 "6d2343171a0d384910312220aae3512f45e3d3d900557b736c139b8363a008e4"
+  sha256 "988c3953293ff484d7b7cd6576c3abb58543f3fb4b25c3c91fbd455070463281"
   conflicts_with "elasticsearch"
 
   def cluster_name
