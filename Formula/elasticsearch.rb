@@ -1,7 +1,7 @@
 class Elasticsearch < Formula
   desc "Distributed search & analytics engine"
   homepage "https://www.elastic.co/products/elasticsearch"
-  url "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.2-darwin-x86_64.tar.gz?tap=elastic/homebrew-tap"
+  url "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.4.2-darwin-x86_64.tar.gz"
   version "8.4.2"
   sha256 "988c3953293ff484d7b7cd6576c3abb58543f3fb4b25c3c91fbd455070463281"
   conflicts_with "elasticsearch"
@@ -41,8 +41,6 @@ class Elasticsearch < Formula
     end
     bin.env_script_all_files(libexec/"bin", {})
 
-    system "codesign", "-f", "-s", "-", "#{libexec}/modules/x-pack-ml/platform/darwin-x86_64/controller.app", "--deep"
-    system "find", "#{libexec}/jdk.app/Contents/Home/bin", "-type", "f", "-exec", "codesign", "-f", "-s", "-", "{}", ";"
   end
 
   def post_install
