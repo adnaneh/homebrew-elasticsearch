@@ -60,6 +60,10 @@ class Elasticsearch < Formula
       Logs:    #{var}/log/elasticsearch/#{cluster_name}.log
       Plugins: #{var}/elasticsearch/plugins/
       Config:  #{etc}/elasticsearch/
+      Lauch the following commands to avoid firewall allow connections pop-ups
+      sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
+      /usr/libexec/ApplicationFirewall/socketfilterfw --add /usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app/Contents/Home/bin/java
+      sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
     EOS
 
     s
