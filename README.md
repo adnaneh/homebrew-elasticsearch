@@ -6,7 +6,7 @@
 
 Or `brew tap adnaneh/elasticsearch` and then `brew install <formula>`.
 
-After this run the following commands to add bundled java to the firewall, otherwise requests to allow connections will keep popping every time elasticsearch is executed.
+After this run the following commands to add bundled java to the firewall, otherwise requests to allow connections will keep popping every time elasticsearch is executed. Do this before adding elasticsearch manually or through the pop up modal as this will not work and will conflict with the instructions below.
 
 ```
 sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate off
