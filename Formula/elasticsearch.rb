@@ -8,9 +8,8 @@ class Elasticsearch < Formula
 
   # elasticsearch will be relicensed before v7.11.
   # https://www.elastic.co/blog/licensing-change
-  disable! date: "2022-07-31", because: "is switching to an incompatible license. Check out `opensearch` instead"
 
-  depends_on "gradle@6" => :build
+  depends_on "gradle" => :build
   depends_on "openjdk"
 
   def cluster_name
