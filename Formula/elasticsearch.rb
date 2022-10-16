@@ -6,11 +6,17 @@ class Elasticsearch < Formula
   sha256 "73aca4820add4a81c93d57a392f0c7275f8a86d926f180ac32cbd9bba1fce27a"
   conflicts_with "elasticsearch"
 
+  depends_on "gradle" => :build
+  depends_on "openjdk"
+
   def cluster_name
     "elasticsearch_#{ENV["USER"]}"
   end
 
   def install
+    os = OS.kernel_name.downcase
+    system "gradle", ":distribution:archives:oss-no-jdk-#{os}-tar:assemble"
+    
     # Install everything else into package directory
     libexec.install "bin", "config", "jdk.app", "lib", "modules"
 
