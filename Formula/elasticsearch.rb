@@ -18,15 +18,14 @@ class Elasticsearch < Formula
 
   def install
     os = OS.kernel_name.downcase
-    system "gradle", ":distribution:archives:oss-no-jdk-#{os}-tar:assemble"
+    # system "gradle", ":distribution:archives:oss-no-jdk-#{os}-tar:assemble"
 
-    # Install into package directory
-    libexec.install "bin", "lib", "modules"
-
-    mkdir "tar" do
       # Extract the package to the tar directory
-      system "tar", "--strip-components=1", "-xf",
-        Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
+      # system "tar", "--strip-components=1", "-xf",
+      #   Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
+
+      # Install into package directory
+      libexec.install "bin", "lib", "modules"
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
@@ -42,7 +41,7 @@ class Elasticsearch < Formula
 
       # Move config files into etc
       (etc/"elasticsearch").install Dir["config/*"]
-    end
+    
 
     inreplace libexec/"bin/elasticsearch-env",
               "if [ -z \"$ES_PATH_CONF\" ]; then ES_PATH_CONF=\"$ES_HOME\"/config; fi",
