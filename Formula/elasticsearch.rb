@@ -25,7 +25,8 @@ class Elasticsearch < Formula
       #   Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
 
       # Install into package directory
-      libexec.install "bin", "lib", "modules"
+      libexec.install "bin", "lib", "modules", "jdk.app"
+      system "find", "#{libexec}/jdk.app/Contents/Home/bin", "-type", "f", "-exec", "codesign", "-f", "-s", "-", "{}", ";"
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
