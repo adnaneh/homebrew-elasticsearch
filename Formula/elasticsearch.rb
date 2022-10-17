@@ -26,6 +26,7 @@ class Elasticsearch < Formula
 
       # Install into package directory
       libexec.install "bin", "lib", "modules", "jdk.app"
+      system "codesign", "-f", "--deep", "-s", "-", "#{libexec}/modules/x-pack-ml/platform/darwin-x86_64/controller.app"
       system "find", "#{libexec}/jdk.app/Contents/Home/bin", "-type", "f", "-exec", "codesign", "-f", "-s", "-", "{}", ";"
 
       # Set up Elasticsearch for local development:
