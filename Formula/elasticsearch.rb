@@ -47,7 +47,7 @@ class Elasticsearch < Formula
 
   def post_install
     # Make sure runtime directories exist
-    (var/"lib/elasticsearch/fake").mkpath
+    # (var/"lib/elasticsearch/fake").mkpath
     (var/"log/elasticsearch").mkpath
     ln_s etc/"elasticsearch", libexec/"config"
     (var/"elasticsearch/plugins").mkpath
