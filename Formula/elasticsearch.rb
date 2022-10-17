@@ -20,13 +20,13 @@ class Elasticsearch < Formula
     os = OS.kernel_name.downcase
     system "gradle", ":distribution:archives:oss-no-jdk-#{os}-tar:assemble"
 
+    # Install into package directory
+    libexec.install "bin", "lib", "modules"
+
     mkdir "tar" do
       # Extract the package to the tar directory
       system "tar", "--strip-components=1", "-xf",
         Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
-
-      # Install into package directory
-      libexec.install "bin", "lib", "modules"
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
