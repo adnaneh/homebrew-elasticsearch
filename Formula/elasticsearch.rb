@@ -69,7 +69,7 @@ class Elasticsearch < Formula
     system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
     system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
     system "cp" , "-R", "private/tmp/elasticsearch/modules/.", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
-    system "cp" , "-R", "private/tmp/elasticsearch/jdk.app/.", "usr/local/Cellar/elasticsearch/8.4.3/jdk.app"
+    system "cp" , "-R", "private/tmp/elasticsearch/jdk.app/.", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
 
     # system "mkdir -p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
     # system "cp -R", "private/tmp/elasticsearch/bin", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
