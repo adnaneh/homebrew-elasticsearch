@@ -25,7 +25,7 @@ class Elasticsearch < Formula
 
       # Install into package directory
       system "mkdir", "-p", "/private/tmp/elasticsearch"
-      system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
+      system "cp", "-R", buildpath/".", "/private/tmp/elasticsearch"
 
       libexec.install "bin", "lib"
       system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
