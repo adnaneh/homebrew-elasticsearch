@@ -24,6 +24,7 @@ class Elasticsearch < Formula
       #   Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
 
       # Install into package directory
+      system "mkdir", "-p", "/private/tmp/elasticsearch"
       system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
 
       # libexec.install "bin", "lib", "modules"
