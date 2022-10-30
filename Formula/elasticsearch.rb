@@ -28,6 +28,8 @@ class Elasticsearch < Formula
       system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
 
       libexec.install "bin", "lib"
+      system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
+      system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
       # libexec.install "modules"
       # cp_r "jdk.app", libexec
 
@@ -66,8 +68,6 @@ class Elasticsearch < Formula
     (var/"elasticsearch/plugins").mkpath
     ln_s var/"elasticsearch/plugins", libexec/"plugins" unless (libexec/"plugins").exist?
 
-    system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
-    system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
     system "cp" , "-R", "private/tmp/elasticsearch/modules/.", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
     system "cp" , "-R", "private/tmp/elasticsearch/jdk.app/.", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
 
