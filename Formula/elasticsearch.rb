@@ -27,8 +27,8 @@ class Elasticsearch < Formula
       system "mkdir", "-p", "/private/tmp/elasticsearch"
       system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
 
-      # libexec.install "bin", "lib", "modules"
-      # cp_r "jdk.app", libexec
+      libexec.install "bin", "lib", "modules"
+      cp_r "jdk.app", libexec
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
