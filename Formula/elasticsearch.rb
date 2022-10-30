@@ -5,49 +5,31 @@ class Elasticsearch < Formula
   version "8.4.3"
   sha256 "73aca4820add4a81c93d57a392f0c7275f8a86d926f180ac32cbd9bba1fce27a"
 
-  # elasticsearch will be relicensed before v7.11.
-  # https://www.elastic.co/blog/licensing-change
-
-  # depends_on "gradle@6" => :build
-  # depends_on "openjdk"
-
   def cluster_name
     "elasticsearch_#{ENV["USER"]}"
   end
 
   def install
-    os = OS.kernel_name.downcase
-    # system "gradle", ":distribution:archives:oss-no-jdk-#{os}-tar:assemble"
+    # Install into package directory
+    system "mkdir", "-p", "/private/tmp/elasticsearch"
+    system "cp", "-R", buildpath/".", "/private/tmp/elasticsearch"
 
-      # Extract the package to the tar directory
-      # system "tar", "--strip-components=1", "-xf",
-      #   Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
+    libexec.install "bin", "lib"
 
-      # Install into package directory
-      system "mkdir", "-p", "/private/tmp/elasticsearch"
-      system "cp", "-R", buildpath/".", "/private/tmp/elasticsearch"
+    # Set up Elasticsearch for local development:
+    inreplace "config/elasticsearch.yml" do |s|
+      # 1. Give the cluster a unique name
+      s.gsub!(/#\s*cluster\.name: .*/, "cluster.name: #{cluster_name}")
 
-      libexec.install "bin", "lib"
-      # system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
-      # system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
-      # libexec.install "modules"
-      # cp_r "jdk.app", libexec
+      # 2. Configure paths
+      s.sub!(%r{#\s*path\.data: /path/to.+$}, "path.data: #{var}/lib/elasticsearch/")
+      s.sub!(%r{#\s*path\.logs: /path/to.+$}, "path.logs: #{var}/log/elasticsearch/")
+    end
 
-      # Set up Elasticsearch for local development:
-      inreplace "config/elasticsearch.yml" do |s|
-        # 1. Give the cluster a unique name
-        s.gsub!(/#\s*cluster\.name: .*/, "cluster.name: #{cluster_name}")
+    inreplace "config/jvm.options", %r{logs/gc.log}, "#{var}/log/elasticsearch/gc.log"
 
-        # 2. Configure paths
-        s.sub!(%r{#\s*path\.data: /path/to.+$}, "path.data: #{var}/lib/elasticsearch/")
-        s.sub!(%r{#\s*path\.logs: /path/to.+$}, "path.logs: #{var}/log/elasticsearch/")
-      end
-
-      inreplace "config/jvm.options", %r{logs/gc.log}, "#{var}/log/elasticsearch/gc.log"
-
-      # Move config files into etc
-      (etc/"elasticsearch").install Dir["config/*"]
-    
+    # Move config files into etc
+    (etc/"elasticsearch").install Dir["config/*"]
 
     inreplace libexec/"bin/elasticsearch-env",
               "if [ -z \"$ES_PATH_CONF\" ]; then ES_PATH_CONF=\"$ES_HOME\"/config; fi",
@@ -67,16 +49,9 @@ class Elasticsearch < Formula
     ln_s etc/"elasticsearch", libexec/"config" unless (libexec/"config").exist?
     (var/"elasticsearch/plugins").mkpath
     ln_s var/"elasticsearch/plugins", libexec/"plugins" unless (libexec/"plugins").exist?
-    # system "cp" , "-R", "/private/tmp/elasticsearch/elasticsearch-8.4.3/modules", "usr/local/Cellar/elasticsearch/8.4.3/libexec"
+    
     system "cp", "-R", "/private/tmp/elasticsearch/elasticsearch-8.4.3/jdk.app", libexec
     system "cp", "-R", "/private/tmp/elasticsearch/elasticsearch-8.4.3/modules", libexec
-
-    # system "mkdir -p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
-    # system "cp -R", "private/tmp/elasticsearch/bin", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
-    # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
-    # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
-    # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
-
     system "rm", "-r", "/private/tmp/elasticsearch"
     
     # fix test not being able to create keystore because of sandbox permissions
