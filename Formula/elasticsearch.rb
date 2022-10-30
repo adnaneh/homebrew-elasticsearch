@@ -8,8 +8,8 @@ class Elasticsearch < Formula
   # elasticsearch will be relicensed before v7.11.
   # https://www.elastic.co/blog/licensing-change
 
-  depends_on "gradle@6" => :build
-  depends_on "openjdk"
+  # depends_on "gradle@6" => :build
+  # depends_on "openjdk"
 
   def cluster_name
     "elasticsearch_#{ENV["USER"]}"
@@ -24,10 +24,10 @@ class Elasticsearch < Formula
       #   Dir["../distribution/archives/oss-no-jdk-#{os}-tar/build/distributions/elasticsearch-oss-*.tar.gz"].first
 
       # Install into package directory
-      system "cp -R", buildpath, "/private/tmp/elasticsearch"
+      system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
 
-      libexec.install "bin", "lib", "modules"
-      cp_r "jdk.app", libexec
+      # libexec.install "bin", "lib", "modules"
+      # cp_r "jdk.app", libexec
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
@@ -63,6 +63,13 @@ class Elasticsearch < Formula
     ln_s etc/"elasticsearch", libexec/"config" unless (libexec/"config").exist?
     (var/"elasticsearch/plugins").mkpath
     ln_s var/"elasticsearch/plugins", libexec/"plugins" unless (libexec/"plugins").exist?
+
+    system "mkdir -p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
+    system "cp -R", "private/tmp/elasticsearch/bin", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
+    system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
+    system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
+    system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
+
     # fix test not being able to create keystore because of sandbox permissions
     system bin/"elasticsearch-keystore", "create" unless (etc/"elasticsearch/elasticsearch.keystore").exist?
   end
