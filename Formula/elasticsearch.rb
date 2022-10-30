@@ -28,7 +28,8 @@ class Elasticsearch < Formula
       system "cp", "-R", buildpath, "/private/tmp/elasticsearch"
 
       libexec.install "bin", "lib", "modules"
-      cp_r "jdk.app", libexec
+      # libexec.install "modules"
+      # cp_r "jdk.app", libexec
 
       # Set up Elasticsearch for local development:
       inreplace "config/elasticsearch.yml" do |s|
@@ -65,12 +66,19 @@ class Elasticsearch < Formula
     (var/"elasticsearch/plugins").mkpath
     ln_s var/"elasticsearch/plugins", libexec/"plugins" unless (libexec/"plugins").exist?
 
+    system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
+    system "mkdir", "-p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/jdk.app"
+    system "cp" , "-R", "private/tmp/elasticsearch/modules/.", "usr/local/Cellar/elasticsearch/8.4.3/libexec/modules"
+    system "cp" , "-R", "private/tmp/elasticsearch/jdk.app/.", "usr/local/Cellar/elasticsearch/8.4.3/jdk.app"
+
     # system "mkdir -p", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
     # system "cp -R", "private/tmp/elasticsearch/bin", "usr/local/Cellar/elasticsearch/8.4.3/libexec/bin"
     # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
     # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
     # system "cp -R", "private/tmp/elasticsearch", "usr/local/Cellar/elasticsearch/8.4.3"
 
+    system "rm", "-r", "private/tmp/elasticsearch"
+    
     # fix test not being able to create keystore because of sandbox permissions
     system bin/"elasticsearch-keystore", "create" unless (etc/"elasticsearch/elasticsearch.keystore").exist?
   end
